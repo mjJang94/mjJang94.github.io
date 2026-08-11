@@ -10,18 +10,16 @@ const entries = (await getCollection('projects', ({ data }) => !data.draft)).sor
 
 <Base title={`${site.name} · ${site.role}`}>
   <header class="site-head">
-    <h1 class="site-head__name">{site.name}</h1>
     <p class="site-head__role">{site.role}</p>
-    <p class="site-head__intro">{site.intro}</p>
+    <h1 class="site-head__name">{site.name}</h1>
+    <p class="site-head__intro">{site.tagline}</p>
 
     <dl class="manifest">
       {
         site.manifest.map((row) => (
           <div class="manifest__row">
             <dt class="manifest__key">{row.key}</dt>
-            <dd class="manifest__value" style="margin:0">
-              {row.value}
-            </dd>
+            <dd class="manifest__value">{row.value}</dd>
           </div>
         ))
       }
@@ -32,7 +30,7 @@ const entries = (await getCollection('projects', ({ data }) => !data.draft)).sor
         site.links.map((link) => (
           <li>
             <a href={link.href} rel="me noopener" target="_blank">
-              {link.label} / {link.handle}
+              {link.label}
             </a>
           </li>
         ))
@@ -41,29 +39,26 @@ const entries = (await getCollection('projects', ({ data }) => !data.draft)).sor
   </header>
 
   <section aria-labelledby="work">
-    <p class="eyebrow" id="work">Selected work — {entries.length} entries</p>
+    <h2 class="eyebrow" id="work">프로젝트<span>{entries.length}</span></h2>
     <ul class="entries">
       {
-        entries.map((entry, i) => (
+        entries.map((entry) => (
           <li class="entry">
             <a class="entry__link" href={`/projects/${entry.id}/`}>
               <div class="entry__rail">
-                <span class="entry__index">{String(i + 1).padStart(2, '0')}</span>
-                <span>{entry.data.period}</span>
-                <span>{site.kindLabel[entry.data.kind]}</span>
+                <span class="entry__kind">{site.kindLabel[entry.data.kind]}</span>
                 {entry.data.current && <span class="entry__flag">진행 중</span>}
+                <span>{entry.data.period}</span>
               </div>
-              <div>
-                <h2 class="entry__title">{entry.data.title}</h2>
-                <p class="entry__summary">{entry.data.summary}</p>
-                {entry.data.stack.length > 0 && (
-                  <ul class="tags">
-                    {entry.data.stack.map((s) => (
-                      <li>{s}</li>
-                    ))}
-                  </ul>
-                )}
-              </div>
+              <h3 class="entry__title">{entry.data.title}</h3>
+              <p class="entry__summary">{entry.data.summary}</p>
+              {entry.data.stack.length > 0 && (
+                <ul class="tags">
+                  {entry.data.stack.map((s) => (
+                    <li>{s}</li>
+                  ))}
+                </ul>
+              )}
             </a>
           </li>
         ))
