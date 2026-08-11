@@ -1,0 +1,91 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { site } from '../../site.config';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('projects', ({ data }) => !data.draft);
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+type Props = { entry: CollectionEntry<'projects'> };
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+
+const specs = [
+  { key: 'period', value: d.period },
+  { key: 'platform', value: d.platform },
+  { key: 'type', value: site.kindLabel[d.kind] },
+  ...(d.role ? [{ key: 'role', value: d.role }] : []),
+];
+---
+
+<Base title={`${d.title} · ${site.name}`} description={d.summary}>
+  <article class="detail">
+    <a class="back" href="/">← 목록으로</a>
+    <h1 class="detail__title">{d.title}</h1>
+    <p class="detail__summary">{d.summary}</p>
+
+    <div class="spec">
+      {
+        specs.map((s) => (
+          <div>
+            <span class="spec__key">{s.key}</span>
+            <span class="spec__value">{s.value}</span>
+          </div>
+        ))
+      }
+      {
+        d.stack.length > 0 && (
+          <div>
+            <span class="spec__key">stack</span>
+            <span class="spec__value">{d.stack.join(', ')}</span>
+          </div>
+        )
+      }
+      {
+        (d.repo || d.store) && (
+          <div>
+            <span class="spec__key">links</span>
+            <span class="spec__value">
+              {d.repo && (
+                <a href={d.repo} target="_blank" rel="noopener">
+                  Repository
+                </a>
+              )}
+              {d.repo && d.store && ' · '}
+              {d.store && (
+                <a href={d.store} target="_blank" rel="noopener">
+                  Store
+                </a>
+              )}
+            </span>
+          </div>
+        )
+      }
+    </div>
+
+    {
+      d.highlights.length > 0 && (
+        <section class="prose">
+          <h2>핵심 성과</h2>
+          <ul>
+            {d.highlights.map((h) => (
+              <li>{h}</li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+</Base>

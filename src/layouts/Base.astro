@@ -1,0 +1,40 @@
+---
+import '../styles/global.css';
+import { site } from '../site.config';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = site.tagline } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="generator" content={Astro.generator} />
+  </head>
+  <body>
+    <a class="skip" href="#main">본문으로 건너뛰기</a>
+    <div class="shell">
+      <main id="main">
+        <slot />
+      </main>
+      <footer class="site-foot">
+        <span>{site.name} · {site.role}</span>
+        <span>Built with Astro · Deployed on GitHub Pages</span>
+      </footer>
+    </div>
+  </body>
+</html>

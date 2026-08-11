@@ -1,0 +1,73 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { site } from '../site.config';
+
+const entries = (await getCollection('projects', ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+<Base title={`${site.name} · ${site.role}`}>
+  <header class="site-head">
+    <h1 class="site-head__name">{site.name}</h1>
+    <p class="site-head__role">{site.role}</p>
+    <p class="site-head__intro">{site.intro}</p>
+
+    <dl class="manifest">
+      {
+        site.manifest.map((row) => (
+          <div class="manifest__row">
+            <dt class="manifest__key">{row.key}</dt>
+            <dd class="manifest__value" style="margin:0">
+              {row.value}
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <ul class="linkbar">
+      {
+        site.links.map((link) => (
+          <li>
+            <a href={link.href} rel="me noopener" target="_blank">
+              {link.label} / {link.handle}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </header>
+
+  <section aria-labelledby="work">
+    <p class="eyebrow" id="work">Selected work — {entries.length} entries</p>
+    <ul class="entries">
+      {
+        entries.map((entry, i) => (
+          <li class="entry">
+            <a class="entry__link" href={`/projects/${entry.id}/`}>
+              <div class="entry__rail">
+                <span class="entry__index">{String(i + 1).padStart(2, '0')}</span>
+                <span>{entry.data.period}</span>
+                <span>{site.kindLabel[entry.data.kind]}</span>
+                {entry.data.current && <span class="entry__flag">진행 중</span>}
+              </div>
+              <div>
+                <h2 class="entry__title">{entry.data.title}</h2>
+                <p class="entry__summary">{entry.data.summary}</p>
+                {entry.data.stack.length > 0 && (
+                  <ul class="tags">
+                    {entry.data.stack.map((s) => (
+                      <li>{s}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</Base>
