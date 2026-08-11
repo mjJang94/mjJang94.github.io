@@ -2,7 +2,7 @@ export const site = {
   name: '장민종',
   role: 'Android Engineer',
   tagline: '재현되지 않는 결함의 원인을 좁혀 해결하고, 지금 만들지 않을 것을 판단하는 일도 중요하게 생각합니다.',
-  intro:,
+  intro:
   manifest: [
     { key: 'experience', value: '8 years / Android' },
     { key: 'domain', value: 'Kids & Senior Safety' },
