@@ -3,3 +3,7 @@ node_modules/
 .astro/
 .DS_Store
 *.log
+
+# 전역 gitignore(~/.gitignore_global)의 *.md 규칙이 콘텐츠와 README까지
+# 제외하므로 이 저장소에서는 되돌립니다.
+!*.md
