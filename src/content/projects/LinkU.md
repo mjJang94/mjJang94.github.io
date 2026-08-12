@@ -1,13 +1,24 @@
 ---
 title: LinkU
 summary: 어떤 앱에서든 공유한 링크를 화면 전환 없이 저장하고, 백그라운드에서 본문 메타데이터를 수집해 카드로 정리해 주는 링크 아카이빙 앱입니다.
-period: 2025.09 —
+period: 2025.09 ~ 2025.11
 platform: Android
-role: 개인 프로젝트 / 기획·설계·개발·배포 단독 진행
+role: 1인 개발 (기획 · 아키텍처 설계 · 구현 전담)
 kind: product
-current: true
-order: 1
-stack: [Kotlin, Jetpack Compose, Hilt, Coroutines, Flow, Room, Paging 3, WorkManager, Jsoup, Gradle Convention Plugin]
+current: false
+order: 3
+stack: 
+- MVVM
+- Kotlin
+- Jetpack Compose
+- Hilt
+- Coroutines
+- Flow
+- Room
+- Paging 3
+- WorkManager
+- Jsoup
+- Gradle Convention Plugin
 highlights:
   - 공유 인텐트를 투명 Activity로 받아 화면 전환 없이 저장하고, 느린 메타데이터 수집은 WorkManager로 분리했습니다.
   - 9개 모듈 + Convention Plugin으로 빌드 설정을 한 곳에서 관리합니다.

@@ -1,27 +1,29 @@
 ---
 title: TimeFit
 summary: 일정을 기록만 하고 끝내지 않도록, 쌓인 일정 데이터를 Gemini로 되짚어주는 Android 캘린더 앱
-period: 2026.06 ~ 2026.07
+period: 2026.06 ~ 2026.08
 platform: Android
 role: 1인 개발 (기획 · 아키텍처 설계 · 구현 전담)
 kind: product
 current: false
 order: 2
 stack:
-  - Kotlin 2.3
-  - Jetpack Compose / Material3
-  - Navigation Compose (type-safe route)
+  - MVVM
+  - Kotlin
+  - Jetpack Compose
+  - Navigation Compose
   - Hilt
-  - Coroutines / Flow
+  - Coroutines
+  - Flow
   - Room
   - DataStore Preferences
-  - Retrofit / OkHttp
+  - Retrofit
   - Gemini 2.0 Flash Lite
   - WorkManager
   - Jetpack Glance
   - AlarmManager
   - Firebase Crashlytics / Analytics
-  - Gradle Convention Plugin / Version Catalog
+  - Gradle Convention Plugin
 highlights:
   - 14개 Gradle 모듈 멀티모듈 구조를 Convention Plugin으로 통일 — 새 feature 모듈 빌드 파일이 플러그인 3줄로 끝남
   - 주간·월간 일정 데이터를 Gemini에 넘겨 "발견 / 제안" 두 줄 인사이트로 요약, Room 캐싱 + WorkManager 자동 생성
@@ -281,3 +283,8 @@ Regex("발견\\s*[:：]\\s*(.+?)(?=\\n?제안\\s*[:：]|$)", RegexOption.DOT_MAT
 초기엔 인사이트를 프리미엄 기능으로 두고 FREE/PREMIUM을 나누는 구조까지 설계했습니다(`SubscriptionRepository`, `InsightLoadState.Locked` 등). 그런데 결제 연동을 실제로 붙이기 전까지는 **잠긴 UI만 존재하는 상태**가 되고, 개인 프로젝트에서 결제 심사·환불 처리까지 감당하는 건 배보다 배꼽이 커지는 일이었습니다.
 
 전면 무료로 전환하면서 관련 코드를 도메인 레이어까지 전부 걷어냈습니다. "나중을 위해 인터페이스만 남겨둘까" 고민했지만, 쓰이지 않는 추상화는 읽는 사람을 헷갈리게 할 뿐이라 판단해 지웠습니다. 계층이 잘 분리되어 있으면 나중에 다시 넣는 비용도 크지 않습니다 — 실제로 걷어낼 때 손댄 곳이 도메인 인터페이스와 ViewModel 상태 분기 정도였고, UI 컴포넌트나 데이터 레이어는 거의 건드리지 않았습니다. **모듈을 미리 쪼개둔 건 성급했지만 계층을 나눠둔 건 값을 했다**는 게 이 프로젝트의 요약입니다.
+
+
+### 7. 이 앱은 배포하지 않기로 했다
+
+Gemeni API를 통해 일정에 대한 인사이트를 제공하다 보니, 만약 사용자가 늘게 될 경우 사용량 감당이 힘들어질 것 같아 개인적으로 쓰기로 했다.
