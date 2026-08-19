@@ -7,7 +7,7 @@ const entries = (await getCollection('projects', ({ data }) => !data.draft)).sor
   (a, b) => a.data.order - b.data.order,
 );
 
-const notes = (await getCollection('notes', ({ data }) => !data.draft)).sort(
+const experience = (await getCollection('experience', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime(),
 );
 ---
@@ -71,21 +71,21 @@ const notes = (await getCollection('notes', ({ data }) => !data.draft)).sort(
   </section>
 
   {
-  notes.length > 0 && (
-      <section aria-labelledby="notes" style="margin-top: 3rem;">
-        <h2 class="eyebrow" id="notes">
-          노트<span>{notes.length}</span>
+  experience.length > 0 && (
+      <section aria-labelledby="experience" style="margin-top: 3rem;">
+        <h2 class="eyebrow" id="experience">
+          경험<span>{experience.length}</span>
         </h2>
         <ul class="entries">
-          {notes.map((note) => (
+          {experience.map((item) => (
             <li class="entry">
-              <a class="entry__link" href={`/notes/${note.id}/`}>
+              <a class="entry__link" href={`/experience/${item.id}/`}>
                 <div class="entry__rail">
-                  <span class="entry__kind">{note.data.topic}</span>
-                  <span>{formatDate(note.data.date)}</span>
+                  <span class="entry__kind">{item.data.topic}</span>
+                  <span>{formatDate(item.data.date)}</span>
                 </div>
-                <h3 class="entry__title">{note.data.title}</h3>
-                <p class="entry__summary">{note.data.summary}</p>
+                <h3 class="entry__title">{item.data.title}</h3>
+                <p class="entry__summary">{item.data.summary}</p>
               </a>
             </li>
           ))}

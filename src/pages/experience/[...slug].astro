@@ -6,7 +6,7 @@ import { site } from '../../site.config';
 import { formatDate } from '../../site.config';
 
 export async function getStaticPaths() {
-  const entries = await getCollection('notes', ({ data }) => !data.draft);
+  const entries = await getCollection('experience', ({ data }) => !data.draft);
   const projects = await getCollection('projects', ({ data }) => !data.draft);
 
   return entries.map((entry) => ({
@@ -23,7 +23,7 @@ export async function getStaticPaths() {
 }
 
 type Props = {
-  entry: CollectionEntry<'notes'>;
+  entry: CollectionEntry<'experience'>;
   related: CollectionEntry<'projects'>[];
 };
 
