@@ -3,7 +3,6 @@ title: AWS CodeBuild CI/CD
 summary: Bitbucket 푸시 → AWS CodeBuild 자동 빌드 → Firebase App Distribution QA 배포 프로세스로 수동 배포 프로세스를 제거하고 QA팀이 항상 최신 빌드를 받을 수 있는 환경을 구성했다.
 date: 2026-02
 topic: 자동화
-projects: [키위플레이+ kids, 키위 패밀리 케어]
 ---
 
 ## 배경 및 목적

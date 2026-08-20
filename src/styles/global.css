@@ -64,6 +64,10 @@ a {
   padding: 0 var(--gutter) 5rem;
 }
 
+.shell:has(.detail) {
+  max-width: 60rem;
+}
+
 .skip {
   position: absolute;
   left: -999px;
@@ -435,6 +439,34 @@ a {
 .prose pre code {
   background: none;
   padding: 0;
+}
+
+.prose table {
+  display: block;
+  overflow-x: auto;
+  width: max-content;
+  max-width: 100%;
+  margin: 1.25rem 0;
+  border-collapse: collapse;
+  font-size: 0.9063rem;
+}
+
+.prose th,
+.prose td {
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--line-strong);
+  text-align: left;
+  vertical-align: top;
+}
+
+.prose th {
+  background: var(--bg);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.prose tbody tr:nth-child(even) td {
+  background: var(--bg);
 }
 
 .site-foot {

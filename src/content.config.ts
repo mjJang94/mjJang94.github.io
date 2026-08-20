@@ -29,8 +29,6 @@ const experience = defineCollection({
     date: z.coerce.date(),
     // 무엇에 대한 고민인지. 목록에서 프로젝트의 kind 자리에 표시됩니다.
     topic: z.string().default('기록'),
-    // 이 글이 어느 프로젝트에서 나온 이야기인지. projects의 id를 씁니다.
-    projects: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
   }),
 });

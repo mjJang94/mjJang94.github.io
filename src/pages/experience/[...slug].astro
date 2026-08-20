@@ -7,27 +7,18 @@ import { formatDate } from '../../site.config';
 
 export async function getStaticPaths() {
   const entries = await getCollection('experience', ({ data }) => !data.draft);
-  const projects = await getCollection('projects', ({ data }) => !data.draft);
 
   return entries.map((entry) => ({
     params: { slug: entry.id },
-    props: {
-      entry,
-      // frontmatter의 projects id를 실제 프로젝트로 바꿔둡니다.
-      // 없는 id는 링크가 깨지므로 조용히 버립니다.
-      related: entry.data.projects
-        .map((id) => projects.find((p) => p.id === id))
-        .filter((p) => p !== undefined),
-    },
+    props: { entry },
   }));
 }
 
 type Props = {
   entry: CollectionEntry<'experience'>;
-  related: CollectionEntry<'projects'>[];
 };
 
-const { entry, related } = Astro.props;
+const { entry } = Astro.props;
 const { Content } = await render(entry);
 const d = entry.data;
 ---
@@ -47,21 +38,6 @@ const d = entry.data;
         <span class="spec__key">topic</span>
         <span class="spec__value">{d.topic}</span>
       </div>
-      {
-        related.length > 0 && (
-          <div>
-            <span class="spec__key">from</span>
-            <span class="spec__value">
-              {related.map((p, i) => (
-                <>
-                  {i > 0 && ' · '}
-                  <a href={`/projects/${p.id}/`}>{p.data.title}</a>
-                </>
-              ))}
-            </span>
-          </div>
-        )
-      }
     </div>
 
     <div class="prose">
