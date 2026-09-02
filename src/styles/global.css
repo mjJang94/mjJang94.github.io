@@ -154,32 +154,72 @@ a {
 /* 링크 버튼 */
 .linkbar {
   display: flex;
-  flex-wrap: wrap;
   gap: 0.5rem;
-  margin: 1rem 0 0;
+  margin: 1.5rem 0 0;
   padding: 0;
   list-style: none;
 }
 
+/* 서비스별 시그니처 색상. --brand-shadow는 hover 시 퍼지는 그림자 색입니다. */
+.linkbar li {
+  /* 남는 폭을 균등하게 나눠 가로를 꽉 채웁니다. */
+  flex: 1 1 0;
+  min-width: 0;
+  --brand: var(--grey-700);
+  --brand-hover: var(--grey-900);
+  --brand-shadow: rgba(78, 89, 104, 0.35);
+}
+
+.linkbar li[data-brand='github'] {
+  --brand: #181717;
+  --brand-hover: #000000;
+  --brand-shadow: rgba(24, 23, 23, 0.35);
+}
+
+/* tistory.com이 실제로 쓰는 포인트 컬러입니다. */
+.linkbar li[data-brand='tistory'] {
+  --brand: #ff5a4a;
+  --brand-hover: #cc4436;
+  --brand-shadow: rgba(255, 90, 74, 0.4);
+}
+
+.linkbar li[data-brand='email'] {
+  --brand: #03c75a;
+  --brand-hover: #02a349;
+  --brand-shadow: rgba(3, 199, 90, 0.4);
+}
+
 .linkbar a {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 0.35rem;
-  padding: 0.6rem 1rem;
-  background: var(--white);
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.1rem;
+  background: var(--brand);
   border-radius: var(--radius-pill);
   box-shadow: var(--shadow-sm);
   font-size: 0.875rem;
   font-weight: 600;
-  color: var(--grey-700);
+  color: var(--white);
   text-decoration: none;
-  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+  transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
 }
 
 .linkbar a:hover {
-  background: var(--blue);
-  color: var(--white);
-  transform: translateY(-1px);
+  background: var(--brand-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px var(--brand-shadow);
+}
+
+.linkbar a:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+.linkbar__icon {
+  width: 1rem;
+  height: 1rem;
+  flex: none;
 }
 
 /* 섹션 제목 */
@@ -355,6 +395,15 @@ a {
   text-decoration: none;
 }
 
+.spec__note {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--grey-500);
+}
+
 /* 본문 */
 .prose {
   margin: 1.75rem 0 0;
@@ -403,9 +452,80 @@ a {
   text-underline-offset: 3px;
 }
 
-.prose img {
+.prose img,
+.prose video {
+  display: block;
   max-width: 100%;
   height: auto;
+  margin: 1.25rem 0;
+  border-radius: var(--radius-md);
+  background: var(--grey-100);
+}
+
+/* 이미지·영상에 설명을 붙일 때 사용합니다. */
+.prose figure {
+  margin: 1.5rem 0;
+}
+
+.prose figure img,
+.prose figure video {
+  margin: 0;
+}
+
+/* 마크다운 이미지는 <p>로 감싸여 들어오므로 여백을 정리합니다. */
+.prose figure p {
+  margin: 0;
+}
+
+.prose figcaption {
+  margin-top: 0.6rem;
+  color: var(--grey-500);
+  font-size: 0.8438rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* 세로 스크린샷·영상이 화면을 다 차지하지 않도록 폭을 제한합니다. */
+.prose .portrait img,
+.prose .portrait video {
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 스크린샷 여러 장을 나란히 배치합니다. */
+.prose .shots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+}
+
+/* <p>로 감싸인 마크다운 이미지도 그리드 항목이 되도록 풀어줍니다. */
+.prose .shots p {
+  display: contents;
+}
+
+.prose .shots img,
+.prose .shots video,
+.prose .shots figure {
+  margin: 0;
+  width: 100%;
+}
+
+/* YouTube 등 외부 임베드용 16:9 래퍼입니다. */
+.prose .embed {
+  position: relative;
+  margin: 1.5rem 0;
+  aspect-ratio: 16 / 9;
+}
+
+.prose .embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
   border-radius: var(--radius-md);
 }
 
@@ -484,6 +604,16 @@ a {
 @media (max-width: 30rem) {
   .manifest__row {
     grid-template-columns: 5.5rem 1fr;
+  }
+
+  /* 버튼 3개가 한 줄에 들어가도록 좌우 여백을 줄입니다. */
+  .linkbar {
+    gap: 0.4rem;
+  }
+
+  .linkbar a {
+    padding: 0.85rem 0.5rem;
+    gap: 0.35rem;
   }
 }
 

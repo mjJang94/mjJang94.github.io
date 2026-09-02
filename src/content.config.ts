@@ -13,6 +13,8 @@ const projects = defineCollection({
     highlights: z.array(z.string()).default([]),
     repo: z.string().url().optional(),
     store: z.string().url().optional(),
+    // 스토어 링크에 덧붙일 설명. 링크 없이 사정만 적을 때도 사용합니다.
+    storeNote: z.string().optional(),
     kind: z.enum(['product', 'library', 'side']).default('product'),
     current: z.boolean().default(false),
     order: z.number().default(99),

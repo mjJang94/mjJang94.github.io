@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { site, formatDate } from '../site.config';
+import BrandIcon from '../components/BrandIcon.astro';
 
 const entries = (await getCollection('projects', ({ data }) => !data.draft)).sort(
   (a, b) => a.data.order - b.data.order,
@@ -32,8 +33,9 @@ const experience = (await getCollection('experience', ({ data }) => !data.draft)
     <ul class="linkbar">
       {
         site.links.map((link) => (
-          <li>
+          <li data-brand={link.id}>
             <a href={link.href} rel="me noopener" target="_blank">
+              <BrandIcon id={link.id} />
               {link.label}
             </a>
           </li>

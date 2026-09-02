@@ -5,12 +5,13 @@ export const site = {
   
   manifest: [
     { key: '목표', value: '만들고 싶은 서비스를 기획하고 디자인하며 구현하고, 고민과 경험을 기록한다.' },
-    { key: '배포 현황', value: 'Google Play 2개 · LinkU, 여기주차' },
+    { key: '배포 현황', value: 'Google Play Store - 링크유, Google Console 내부 테스트 - 또박이, 여기주차, 품앗이' },
   ],
+  // id는 버튼 색상·아이콘을 고르는 키입니다. global.css의 .linkbar--<id> 와 짝을 맞춥니다.
   links: [
-    { label: 'GitHub', href: 'https://github.com/mjJang94', handle: 'mjJang94' },
-    { label: 'Tistory', href: 'https://alswhddl10.tistory.com', handle: 'alswhddl10' },
-    { label: 'Email', href: 'mailto:devjjang@naver.com', handle: 'devjjang@naver.com' },
+    { id: 'github', label: 'GitHub', href: 'https://github.com/mjJang94', handle: 'mjJang94' },
+    { id: 'tistory', label: 'Tistory', href: 'https://alswhddl10.tistory.com', handle: 'alswhddl10' },
+    { id: 'email', label: 'Email', href: 'mailto:devjjang@naver.com', handle: 'devjjang@naver.com' },
   ],
   kindLabel: {
     product: '앱',

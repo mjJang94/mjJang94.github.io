@@ -50,9 +50,9 @@ const specs = [
         )
       }
       {
-        (d.repo || d.store) && (
+        (d.repo || d.store || d.storeNote) && (
           <div>
-            <span class="spec__key">links</span>
+            <span class="spec__key">{d.repo || d.store ? 'links' : 'store'}</span>
             <span class="spec__value">
               {d.repo && (
                 <a href={d.repo} target="_blank" rel="noopener">
@@ -65,6 +65,7 @@ const specs = [
                   Store
                 </a>
               )}
+              {d.storeNote && <span class="spec__note">{d.storeNote}</span>}
             </span>
           </div>
         )
