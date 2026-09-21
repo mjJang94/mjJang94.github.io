@@ -211,6 +211,55 @@ touch configs/jank.pbtx configs/startup.pbtx configs/memory.pbtx
 ```bash
 touch trace.sh startup.sh run_queries.sh
 # 5장 내용을 각 파일에 붙여넣은 뒤
+cat > startup.sh <<'EOF'
+#!/usr/bin/env bash
+# 사용법: ./startup.sh [package] [반복 횟수] [compile 모드: profile | reset]
+set -euo pipefail
+
+cd "$(dirname "$0")"
+
+PKG="${1:-io.kiwiplus.app.kiwichild.download.dev}"
+RUNS="${2:-5}"
+COMPILE="${3:-profile}"
+RESULT_CSV="traces/startup_$(date +%Y%m%d_%H%M%S).csv"
+
+mkdir -p traces
+echo "run,total_time_ms,trace_file" > "$RESULT_CSV"
+
+ACTIVITY=$(adb shell cmd package resolve-activity --brief \
+  -c android.intent.category.LAUNCHER "$PKG" | tail -n 1 | tr -d '\r')
+echo "[startup] activity=${ACTIVITY}"
+
+if [[ "$COMPILE" == "reset" ]]; then
+  adb shell cmd package compile --reset "$PKG" >/dev/null
+else
+  adb shell cmd package compile -m speed-profile -f "$PKG" >/dev/null
+fi
+
+for i in $(seq 1 "$RUNS"); do
+  echo "[startup] run ${i}/${RUNS}"
+
+  adb shell am force-stop "$PKG"
+  sleep 2
+
+  ./trace.sh startup "$PKG" --no-open > /dev/null 2>&1 &
+  TRACE_PID=$!
+  sleep 3
+
+  TOTAL=$(adb shell am start -W -n "$ACTIVITY" | grep TotalTime | awk '{print $2}' | tr -d '\r')
+
+  wait $TRACE_PID
+  LATEST=$(ls -t traces/*.pftrace | head -n 1)
+
+  echo "${i},${TOTAL},${LATEST}" >> "$RESULT_CSV"
+  echo "[startup] TotalTime=${TOTAL}ms -> ${LATEST}"
+  sleep 3
+done
+
+echo "[startup] 결과: ${RESULT_CSV}"
+EOF
+
+# 그 다음
 chmod +x trace.sh startup.sh run_queries.sh
 ```
 
